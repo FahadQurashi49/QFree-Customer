@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QFree-Customer</string>
+    <string name="customer_id">59b96da301fc4d2a0c7ea18a</string>
+    <string name="btn_login">Login</string>
+</resources>
