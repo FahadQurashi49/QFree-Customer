@@ -1,5 +1,6 @@
 package com.qfree.qfree_customer.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.qfree.qfree_customer.model.Customer;
 import com.qfree.qfree_customer.rest.ApiClient;
 import com.qfree.qfree_customer.rest.CustomerApiInterface;
 import com.qfree.qfree_customer.rest.RestError;
+import com.qfree.qfree_customer.service.CustomerService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +50,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (RestError.ShowIfError(TAG, response, getApplicationContext())) {
                             Customer customer = response.body();
                             if (customer != null) {
-                                loginStatusTextView.setText(customer.getName());
+                                CustomerService.getInstance().setCustomerInstance(customer);
+                                Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
+                                startActivity(intent);
                             }
                         }
                     } catch (Exception e) {
