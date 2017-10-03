@@ -3,4 +3,6 @@
     <string name="customer_id">59b96da301fc4d2a0c7ea18a</string>
     <string name="btn_login">Login</string>
     <string name="lbl_queue_number">Queue Number</string>
+    <string name="lbl_queue_name">Queue</string>
+    <string name="lbl_diff_number">Yet to go</string>
 </resources>

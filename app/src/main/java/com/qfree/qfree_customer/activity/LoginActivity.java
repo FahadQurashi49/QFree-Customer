@@ -50,8 +50,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (RestError.ShowIfError(TAG, response, getApplicationContext())) {
                             Customer customer = response.body();
                             if (customer != null) {
-                                CustomerService.getInstance().setCustomerInstance(customer);
+//                                CustomerService.getInstance().setCustomerInstance(customer);
+
                                 Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
+                                intent.putExtra("customer", customer);
                                 startActivity(intent);
                             }
                         }
