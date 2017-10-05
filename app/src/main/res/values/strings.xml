@@ -5,4 +5,6 @@
     <string name="lbl_queue_number">Queue Number</string>
     <string name="lbl_queue_name">Queue</string>
     <string name="lbl_diff_number">Yet to go</string>
+    <string name="tv_facility_id">59b96ce401fc4d2a0c7ea188</string>
+    <string name="btn_facility_search">Search</string>
 </resources>

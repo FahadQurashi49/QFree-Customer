@@ -2,11 +2,13 @@ package com.qfree.qfree_customer.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Fahad Qureshi on 10/2/2017.
  */
 
-public class Queue {
+public class Queue implements Serializable {
     @SerializedName("_id")
     private String id;
     @SerializedName("name")

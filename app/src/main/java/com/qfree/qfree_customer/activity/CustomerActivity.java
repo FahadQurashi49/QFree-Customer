@@ -1,18 +1,21 @@
 package com.qfree.qfree_customer.activity;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.qfree.qfree_customer.R;
 import com.qfree.qfree_customer.model.Customer;
+import com.qfree.qfree_customer.model.Facility;
 import com.qfree.qfree_customer.model.Queue;
 import com.qfree.qfree_customer.rest.ApiClient;
+import com.qfree.qfree_customer.rest.FacilityApiInterface;
 import com.qfree.qfree_customer.rest.QueueApiInterface;
 import com.qfree.qfree_customer.rest.RestError;
-import com.qfree.qfree_customer.service.CustomerService;
 
 import java.util.Locale;
 
@@ -21,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomerActivity extends AppCompatActivity {
-    private static final String TAG = CustomerActivity.class.getSimpleName();
+    private static final String TAG = "test";
 
     private Customer currCustomer;
     private QueueApiInterface queueApiInterface;
@@ -32,6 +35,13 @@ public class CustomerActivity extends AppCompatActivity {
     private TextView queueNumberTextView;
     private TextView queueNameTextView;
     private TextView diffNumberTextView;
+
+    private FacilityApiInterface facilityApiInterface;
+
+    private ConstraintLayout notInQueueLayout;
+
+    private EditText facilityIdEditText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +54,21 @@ public class CustomerActivity extends AppCompatActivity {
         diffNumberTextView = (TextView) findViewById(R.id.tv_diff_number);
         inQueueLayout = (ConstraintLayout) findViewById(R.id.cl_in_queue);
 
+        facilityIdEditText = (EditText) findViewById(R.id.tv_facility_id);
+        notInQueueLayout = (ConstraintLayout) findViewById(R.id.cl_not_in_queue);
+
+
         queueApiInterface = ApiClient.getClient().create(QueueApiInterface.class);
+        facilityApiInterface = ApiClient.getClient().create(FacilityApiInterface.class);
 
 //        currCustomer =  CustomerService.getInstance().getCustomerInstance();
         currCustomer = (Customer) getIntent().getSerializableExtra("customer");
         customerNameTextView.setText(currCustomer.getName());
 
         if (currCustomer.getInQueue()) {
-            toggleInQueueFunctionalityViews(true);
+            notInQueueLayout.setVisibility(View.INVISIBLE);
+            inQueueLayout.setVisibility(View.VISIBLE);
+
             queueNumberTextView.setText(String.format(Locale.ENGLISH, "%d", currCustomer.getQueueNumber()));
             Call<Queue> queueCall = queueApiInterface.getQueueById(currCustomer.getQueueId());
             queueCall.enqueue(new Callback<Queue>() {
@@ -76,13 +93,49 @@ public class CustomerActivity extends AppCompatActivity {
                     RestError.ShowError(TAG, t.getMessage(), getApplicationContext());
                 }
             });
+        } else {
+            notInQueueLayout.setVisibility(View.VISIBLE);
+            inQueueLayout.setVisibility(View.INVISIBLE);
         }
 
 
+    }
+
+    public void onBtnFacilitySearchClick(View view) {
+        String facilityId = facilityIdEditText.getText().toString();
+        if (!facilityId.isEmpty()) {
+            Call<Facility> facilityCall = facilityApiInterface.getFacility(facilityId);
+            facilityCall.enqueue(new Callback<Facility>() {
+                @Override
+                public void onResponse(Call<Facility> call, Response<Facility> response) {
+                    try {
+                        if (RestError.ShowIfError(TAG, response, getApplicationContext())) {
+                            Facility facility = response.body();
+                            if (facility != null) {
+                                Intent intent = new Intent(CustomerActivity.this, FacilityActivity.class);
+                                intent.putExtra("facility", facility);
+                                startActivity(intent);
+                            }
+
+                        }
+                    } catch (Exception e) {
+                        RestError.ShowError(TAG, e.getMessage(), getApplicationContext());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Facility> call, Throwable t) {
+                    RestError.ShowError(TAG, t.getMessage(), getApplicationContext());
+                }
+            });
+
+        }
     }
 
     private void toggleInQueueFunctionalityViews(boolean show) {
         int visibility = show? View.VISIBLE: View.INVISIBLE;
         inQueueLayout.setVisibility(visibility);
     }
+
+
 }

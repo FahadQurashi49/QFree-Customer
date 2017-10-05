@@ -1,5 +1,6 @@
 package com.qfree.qfree_customer.rest;
 
+import com.qfree.qfree_customer.model.PageResponse;
 import com.qfree.qfree_customer.model.Queue;
 
 import retrofit2.Call;
@@ -13,4 +14,7 @@ import retrofit2.http.Path;
 public interface QueueApiInterface {
     @GET("queues/{id}")
     Call<Queue> getQueueById(@Path("id") String id);
+
+    @GET("facilities/{id}/queues")
+    Call<PageResponse<Queue>> getAllQueues(@Path("id") String facilityId);
 }
