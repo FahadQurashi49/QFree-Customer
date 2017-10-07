@@ -64,12 +64,13 @@ public class FacilityActivity extends AppCompatActivity {
                                 new QueueAdapterListener() {
                                     @Override
                                     public void onQueueSelected(int position, Queue queue) {
-                                        if (queue != null) {
-                                            Toast.makeText(getApplicationContext(), queue.getName() + "clicked", Toast.LENGTH_SHORT).show();
+                                        if (queue != null && queue.getRunning()) {
 //                                            selectedQueuePosition = position;
-                                            /*Intent intent = new Intent(FacilityActivity.this, QueueActivity.class);
+                                            Intent intent = new Intent(FacilityActivity.this, QueueActivity.class);
                                             intent.putExtra("selected_queue", queue);
-                                            startActivity(intent);*/
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Queue not running", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
