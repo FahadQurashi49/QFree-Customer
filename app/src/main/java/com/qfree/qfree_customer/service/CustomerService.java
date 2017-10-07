@@ -21,7 +21,6 @@ public class CustomerService {
         return customerInstance;
     }
     public void setCustomerInstance (Customer customer) {
-        customerInstance.setId(customer.getId());
-        customerInstance.setName(customer.getName());
+        customerInstance.copy(customer);
     }
 }

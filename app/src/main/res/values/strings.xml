@@ -7,4 +7,8 @@
     <string name="lbl_diff_number">Yet to go</string>
     <string name="tv_facility_id">59b96ce401fc4d2a0c7ea188</string>
     <string name="btn_facility_search">Search</string>
+    <string name="lbl_curr_numb">Current number</string>
+    <string name="lbl_expected_number">Your number</string>
+    <string name="lbl_expected_diff">Difference</string>
+    <string name="btn_enqueue">Enqueue</string>
 </resources>

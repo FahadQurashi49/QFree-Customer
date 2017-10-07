@@ -73,15 +73,15 @@
             app:layout_constraintHorizontal_bias="0.501" />
 
         <TextView
-            android:id="@+id/lbl_queue_name"
+            android:id="@+id/lbl_current_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/tv_queue_name"
-            android:text="@string/lbl_queue_name"
+            android:labelFor="@+id/tv_current_number"
+            android:text="@string/lbl_curr_numb"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_queue_name"
+            app:layout_constraintBottom_toTopOf="@+id/tv_current_number"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
@@ -91,7 +91,7 @@
             app:layout_constraintVertical_bias="0.99" />
 
         <TextView
-            android:id="@+id/tv_queue_name"
+            android:id="@+id/tv_current_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"

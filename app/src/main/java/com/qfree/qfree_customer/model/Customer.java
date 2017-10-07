@@ -82,4 +82,15 @@ public class Customer implements Serializable {
     public void setDummy(Boolean dummy) {
         isDummy = dummy;
     }
+
+    public void copy(Customer customer) {
+        if (customer != null) {
+            this.id = customer.getId();
+            this.name = customer.getName();
+            this.queueNumber = customer.queueNumber;
+            this.isInQueue = customer.getInQueue();
+            this.queueId = customer.getQueueId();
+            this.isDummy = customer.getDummy();
+        }
+    }
 }

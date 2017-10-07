@@ -16,6 +16,7 @@ import com.qfree.qfree_customer.rest.ApiClient;
 import com.qfree.qfree_customer.rest.FacilityApiInterface;
 import com.qfree.qfree_customer.rest.QueueApiInterface;
 import com.qfree.qfree_customer.rest.RestError;
+import com.qfree.qfree_customer.service.CustomerService;
 
 import java.util.Locale;
 
@@ -33,7 +34,7 @@ public class CustomerActivity extends AppCompatActivity {
 
     private TextView customerNameTextView;
     private TextView queueNumberTextView;
-    private TextView queueNameTextView;
+    private TextView currNumberTextView;
     private TextView diffNumberTextView;
 
     private FacilityApiInterface facilityApiInterface;
@@ -50,7 +51,7 @@ public class CustomerActivity extends AppCompatActivity {
 
         customerNameTextView = (TextView) findViewById(R.id.tv_customer_name);
         queueNumberTextView = (TextView) findViewById(R.id.tv_queue_number);
-        queueNameTextView = (TextView) findViewById(R.id.tv_queue_name);
+        currNumberTextView = (TextView) findViewById(R.id.tv_current_number);
         diffNumberTextView = (TextView) findViewById(R.id.tv_diff_number);
         inQueueLayout = (ConstraintLayout) findViewById(R.id.cl_in_queue);
 
@@ -61,8 +62,8 @@ public class CustomerActivity extends AppCompatActivity {
         queueApiInterface = ApiClient.getClient().create(QueueApiInterface.class);
         facilityApiInterface = ApiClient.getClient().create(FacilityApiInterface.class);
 
-//        currCustomer =  CustomerService.getInstance().getCustomerInstance();
-        currCustomer = (Customer) getIntent().getSerializableExtra("customer");
+        currCustomer =  CustomerService.getInstance().getCustomerInstance();
+//        currCustomer = (Customer) getIntent().getSerializableExtra("customer");
         customerNameTextView.setText(currCustomer.getName());
 
         if (currCustomer.getInQueue()) {
@@ -78,8 +79,8 @@ public class CustomerActivity extends AppCompatActivity {
                         if (RestError.ShowIfError(TAG, response, getApplicationContext())) {
                             Queue respQueue = response.body();
                             if (respQueue != null) {
-                                queueNameTextView.setText(respQueue.getName());
-                                Long diffNum = respQueue.getRear() - (respQueue.getFront() + 1);
+                                currNumberTextView.setText(String.format(Locale.ENGLISH, "%d", respQueue.getFront() + 1) );
+                                Long diffNum = (currCustomer.getQueueNumber() -1) - respQueue.getFront();
                                 diffNumberTextView.setText(String.format(Locale.ENGLISH, "%d", diffNum));
                             }
                         }
@@ -131,11 +132,4 @@ public class CustomerActivity extends AppCompatActivity {
 
         }
     }
-
-    private void toggleInQueueFunctionalityViews(boolean show) {
-        int visibility = show? View.VISIBLE: View.INVISIBLE;
-        inQueueLayout.setVisibility(visibility);
-    }
-
-
 }

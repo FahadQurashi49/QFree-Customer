@@ -1,5 +1,6 @@
 package com.qfree.qfree_customer.rest;
 
+import com.qfree.qfree_customer.model.Customer;
 import com.qfree.qfree_customer.model.PageResponse;
 import com.qfree.qfree_customer.model.Queue;
 
@@ -17,4 +18,7 @@ public interface QueueApiInterface {
 
     @GET("facilities/{id}/queues")
     Call<PageResponse<Queue>> getAllQueues(@Path("id") String facilityId);
+
+    @GET("facilities/{id}/queues/{queue_id}/customers/{customer_id}/enqueue")
+    Call<Customer> enqueueCustomer(@Path("id") String facilityId, @Path("queue_id") String queueId, @Path("customer_id") String customerId);
 }
